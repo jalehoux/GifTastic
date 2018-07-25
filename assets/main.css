@@ -1,0 +1,10 @@
+#suggestions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 15px;
+    text-align: center;
+}
+
+.searchPosters {
+    width: 100%;
+}
