@@ -14,7 +14,7 @@ const renderButtons = () => {
 
 const pullData = (movieTitle, movieId) => {
     var giphyURL = `https://api.giphy.com/v1/gifs/search?q=${movieTitle}&api_key=dc6zaTOxFJmzC&limit=10`;
-    var omdbURL = `http://www.omdbapi.com/?apikey=trilogy&i=${movieId}`;
+    var omdbURL = `https://www.omdbapi.com/?apikey=trilogy&i=${movieId}`;
 
     $.ajax({
         url: giphyURL,
@@ -98,7 +98,7 @@ $document.on("click", ".searchPosters" ,function() {
 $('#movieTitle').on('keyup',function(event){
     var searchPhrase = $('#movieTitle').val();
     $.ajax({
-        url:'http://www.omdbapi.com/',
+        url:'https://www.omdbapi.com/',
         type: 'GET',
         data: {
             s: searchPhrase,
