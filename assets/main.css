@@ -30,3 +30,8 @@
     text-align: center;
     color: grey;
 }
+
+.title {
+    background: lightgrey;
+    font-weight: bold;
+}

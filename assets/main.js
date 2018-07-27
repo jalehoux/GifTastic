@@ -48,6 +48,7 @@ const setGiphys = (data) => {
 }
 
 const setMovieInfo = (data) => {
+    console.log(data);
     var movieDom = $('#movieinfo');
     movieDom.empty();
     var $infoDiv = $('<div>');
@@ -55,9 +56,16 @@ const setMovieInfo = (data) => {
     $poster.attr('src',data.Poster);
     var $title = $('<h3>');
     $title.html(data.Title);
+    var $rating = $('<p>');
+    $rating.html(data.Rated);
+    var $director = $('<p>');
+    $director.html(data.Director);
+    var $plot = $('<p>');
+    $plot.html(data.Plot);
 
 
-    $infoDiv.append($poster).append($title);
+
+    $infoDiv.append($poster).append($title).append($director).append($rating).append($plot);
     movieDom.prepend($infoDiv);
 }
 
@@ -116,8 +124,13 @@ $('#movieTitle').on('keyup',function(event){
                         response.Search.forEach(function(element){
                             var $movieContainer = $('<div>');
                             var $newImage = $('<img>');
-                            $newImage.attr({'src':element.Poster,'data-id':element.imdbID,'data-title':element.Title, 'class':'searchPosters'});
-                            $movieContainer.append($newImage);
+                            var $titlediv = $('<p class="title">'+element.Title+'</p>');
+                            if(element.Poster == "N/A") {
+                                $newImage.attr({'src':'./assets/images/blank.jpg','data-id':element.imdbID,'data-title':element.Title, 'class':'searchPosters'});
+                            } else {
+                                $newImage.attr({'src':element.Poster,'data-id':element.imdbID,'data-title':element.Title, 'class':'searchPosters'});
+                            }
+                            $movieContainer.append($newImage).append($titlediv);
                             $('#suggestions').append($movieContainer);
                             $('#helpText').html('<h3>Select one or many of the movies below!</h3>')
                         })
