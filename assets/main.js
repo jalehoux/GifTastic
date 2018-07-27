@@ -5,8 +5,8 @@ const renderButtons = () => {
     initialMovies.forEach(function(element){
         let $button = $('<button>');
         $button
-        .addClass('movie')
-        .attr({'data-title': element.title, 'data-id':element.id})
+        .addClass('btn btn-primary')
+        .attr({'type':'button','data-title': element.title, 'data-id':element.id})
         .text(element.title);
         $('#buttons').append($button);
     })
@@ -63,7 +63,7 @@ const setMovieInfo = (data) => {
 
 var $document = $(document);
 
-$document.on("click", ".movie" ,function() {
+$document.on("click", "button" ,function() {
     let title = $(this).attr('data-title');
     let id = $(this).attr('data-id');
     $('#suggestions').empty();
@@ -97,6 +97,10 @@ $document.on("click", ".searchPosters" ,function() {
 
 $('#movieTitle').on('keyup',function(event){
     var searchPhrase = $('#movieTitle').val();
+    if(searchPhrase == "") {
+        $('#helpText').html('');
+        $('#suggestions').html('');
+    } else {
     $.ajax({
         url:'https://www.omdbapi.com/',
         type: 'GET',
@@ -105,16 +109,26 @@ $('#movieTitle').on('keyup',function(event){
             apikey: 'trilogy'
         }
         }).then(function(response){
-            console.log(response)
-            $('#suggestions').empty();
-                if(response.Search){
-                    response.Search.forEach(function(element){
-                        var $movieContainer = $('<div>');
-                        var $newImage = $('<img>');
-                        $newImage.attr({'src':element.Poster,'data-id':element.imdbID,'data-title':element.Title, 'class':'searchPosters'});
-                        $movieContainer.append($newImage);
-                        $('#suggestions').append($movieContainer);
-                    })
+            console.log(response);
+            if (response.Response == 'True') {
+                $('#suggestions').empty();
+                    if(response.Search){
+                        response.Search.forEach(function(element){
+                            var $movieContainer = $('<div>');
+                            var $newImage = $('<img>');
+                            $newImage.attr({'src':element.Poster,'data-id':element.imdbID,'data-title':element.Title, 'class':'searchPosters'});
+                            $movieContainer.append($newImage);
+                            $('#suggestions').append($movieContainer);
+                            $('#helpText').html('<h3>Select one or many of the movies below!</h3>')
+                        })
+                    }
+                } else {
+                    $('#suggestions').empty();
+                    var $noMovies = $('<div>');
+                    var $noMovieText = $('<h3> Error: '+ response.Error+'</h3>');
+                    $noMovies.append($noMovieText);
+                    $('#helpText').html($noMovies);
                 }
             })
+        }
 })
